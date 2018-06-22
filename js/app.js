@@ -1,3 +1,15 @@
+//Filter callback function
+$.mobile.filterable.prototype.options.filterCallback = function( index, searchValue ) {
+  //Fetch list item
+  var filtertext = $.mobile.getAttribute(this, 'filtertext');
+  filtertext = (filtertext == null ? '' : filtertext);
+  //Concatinate displaying text
+  filtertext += ' ' + $.trim($(this).text());
+  //Search items in lower case and return result
+  return (filtertext.toLowerCase().indexOf(searchValue) === -1);
+};
+
+
 //Location list
 var locations = [
   {title: 'Park Ave Penthouse', location: {lat: 40.7713024, lng: -73.9632393}},
@@ -11,7 +23,7 @@ var locations = [
 //Location
 var Location = function(data) {
   this.title = ko.observable(data.title);
-  //this.location = ko.observable(data.location);
+  this.location = ko.observable(data.location);
 }
 
 // ViewModel
@@ -22,10 +34,11 @@ var viewModel = function() {
     self.locationList.push(new Location(loc));
   });
 
-  //this.currentLocation = ko.observable(this.locationList()[0]);
+  this.currentLocation = ko.observable(this.locationList()[0]);
 
   this.didSelect = function(selectedLocation) {
-    //self.currentLocation(selectedLocation);
+    self.currentLocation(selectedLocation);
+    //console.log(self.currentLocation().title());
   };
 };
 
