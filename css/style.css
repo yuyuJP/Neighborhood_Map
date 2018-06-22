@@ -15,3 +15,8 @@ html, body {
   height: 86%;
   width: 97.5%;
 }
+
+#pano {
+        width: 200px;
+        height: 200px;
+      }
