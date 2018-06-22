@@ -1,3 +1,4 @@
+//Map UI
 var map;
 
 function initMap() {
@@ -18,4 +19,9 @@ function initMap() {
   marker.addListener('click', function() {
     infowindow.open(map, marker);
   });
+}
+
+//Location data
+var location = function(data) {
+  
 }
