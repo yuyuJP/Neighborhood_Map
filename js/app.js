@@ -1,3 +1,13 @@
+
+// ViewModel
+var ViewModel = function() {
+    this.didSelect = function() {
+        console.log('item selected');
+    }
+};
+
+ko.applyBindings(new ViewModel());
+
 //Map UI
 var map;
 
@@ -19,9 +29,4 @@ function initMap() {
   marker.addListener('click', function() {
     infowindow.open(map, marker);
   });
-}
-
-//Location data
-var location = function(data) {
-  
 }

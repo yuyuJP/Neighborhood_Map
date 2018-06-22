@@ -12,11 +12,12 @@
 <body>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
   <script src="http://code.jquery.com/mobile/1.4.0/jquery.mobile-1.4.0.min.js"></script>
+  <script src="js/lib/knockout-3.2.0.js"></script>
   <div data-role="page" id="top">
   	<div data-role="panel" id="menu-left" data-theme="b">
   		<ul data-role="listview">
   			<li data-role="list-divider">My Locations</li>
-  			<li><a href="#">item1</a></li>
+  			<li><a data-bind="click: didSelect" class="list-item">item1</a></li>
   			<li><a href="#">item2</a></li>
   			<li><a href="#">item3</a></li>
   			<li><a href="#">item4</a></li>
@@ -33,11 +34,12 @@
       </div>
   	</div>
     <div role="main" class="ui-content" id="map">
-      <script type="text/javascript" src="js/app.js"></script>
-      <script async defer
-          src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBJg087W2q0b2AbIxsy_ZyDf2fDEzVr7pM&v=3&callback=initMap">
-      </script>
     </div>
+    <script type="text/javascript" src="js/app.js"></script>
+    <script async defer
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBJg087W2q0b2AbIxsy_ZyDf2fDEzVr7pM&v=3&callback=initMap">
+    </script>
+    <script src="js/lib/knockout-3.2.0.js"></script>
   </div>
 </body>
 </html>
