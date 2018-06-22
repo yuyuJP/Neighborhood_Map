@@ -6,6 +6,7 @@ html, body {
 
 .header-items {
   padding: 10px;
+  background-color: #363A44;
 }
 
 #map {
