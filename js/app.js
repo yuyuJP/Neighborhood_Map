@@ -1,15 +1,3 @@
-//Filter callback function
-$.mobile.filterable.prototype.options.filterCallback = function( index, searchValue ) {
-  //Fetch list item
-  var filtertext = $.mobile.getAttribute(this, 'filtertext');
-  filtertext = (filtertext == null ? '' : filtertext);
-  //Concatinate displaying text
-  filtertext += ' ' + $.trim($(this).text());
-  //Search items in lower case and return result
-  return (filtertext.toLowerCase().indexOf(searchValue) === -1);
-};
-
-
 //Location list
 var locations = [
   {title: 'Park Ave Penthouse', location: {lat: 40.7713024, lng: -73.9632393}},
@@ -66,3 +54,22 @@ function initMap() {
     infowindow.open(map, marker);
   });
 }
+
+//Filter callback function
+$.mobile.filterable.prototype.options.filterCallback = function( index, searchValue ) {
+  //Fetch list item
+  var filtertext = $.mobile.getAttribute(this, 'filtertext');
+  filtertext = (filtertext == null ? '' : filtertext);
+  //Concatinate displaying text
+  var filtertext_con = filtertext + ' ' + $.trim($(this).text());
+  //Search items in lower case
+  var result = filtertext_con.toLowerCase().indexOf(searchValue) === -1
+  if (result == false) {
+    //Display marker on the map.
+    console.log("Display item:" + index);
+  } else {
+    //Hide marker on the map.
+  }
+
+  return result;
+};
