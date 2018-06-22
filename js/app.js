@@ -1,12 +1,17 @@
+//Location
+var location = function(data) {
+  this.title = ko.observable(data.title);
+  this.location = ko.observable(data.location);
+}
 
 // ViewModel
-var ViewModel = function() {
+var viewModel = function() {
     this.didSelect = function() {
         console.log('item selected');
     }
 };
 
-ko.applyBindings(new ViewModel());
+ko.applyBindings(new viewModel());
 
 //Map UI
 var map;
