@@ -15,17 +15,8 @@
   <script src="js/lib/knockout-3.2.0.js"></script>
   <div data-role="page" id="top">
   	<div data-role="panel" id="menu-left" data-theme="b">
-  		<ul data-role="listview">
-  			<li data-role="list-divider">My Locations</li>
-  			<li><a data-bind="click: didSelect" class="list-item">item1</a></li>
-  			<li><a href="#">item2</a></li>
-  			<li><a href="#">item3</a></li>
-  			<li><a href="#">item4</a></li>
-  			<li><a href="#">item4</a></li>
-  			<li><a href="#">item4</a></li>
-  			<li><a href="#">item4</a></li>
-  			<li><a href="#">item4</a></li>
-  			<li><a href="#">item4</a></li>
+  		<ul data-role="listview" data-bind="foreach: locationList">
+  			<li><a data-bind="click: $parent.didSelect, text: title"></a></li>
   		</ul>
   	</div>
   	<div data-role="header">
