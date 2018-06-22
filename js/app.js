@@ -22,11 +22,12 @@ var viewModel = function() {
     self.locationList.push(new Location(loc));
   });
 
-  this.currentLocation = ko.observable(this.locationList()[0]);
-
   this.didSelect = function(selectedLocation) {
-    self.currentLocation(selectedLocation);
-    //console.log(self.currentLocation().title());
+    for (var i = 0; i < locations.length; i++) {
+      if (selectedLocation.title() == locations[i].title) {
+        //Open infowindow
+      }
+    }
   };
 };
 
