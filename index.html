@@ -15,7 +15,9 @@
   <script src="js/lib/knockout-3.2.0.js"></script>
   <div data-role="page" id="top">
   	<div data-role="panel" id="menu-left" data-theme="b">
-      <p>Location Filter <input data-bind="textInput: filterInput" /></p>
+      <div class="filter-text">
+        <p>Location Filter <input data-bind="textInput: filterInput" /></p>
+      </div>
   		<ul data-role="listview" data-bind="foreach: locationList">
   			<li><a data-bind="click: $parent.didSelect, text: title"></a></li>
   		</ul>
