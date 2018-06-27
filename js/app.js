@@ -60,15 +60,37 @@ var Location = function(data) {
 // ViewModel
 var viewModel = function() {
   var self = this;
-  this.locationList = ko.observableArray([]);
+  //this.locationList = ko.observableArray([]);
   this.filterInput = ko.observable('');
+  /*
   locations.forEach(function(loc){
     self.locationList.push(new Location(loc));
   });
+  */
+  this.filterLocations = ko.computed(function() {
+    var result = [];
+    var searchValue = this.filterInput();
+    for (var i = 0; i < locations.length; i++) {
+      var isMatch = locations[i].title.toLowerCase().indexOf(searchValue) === -1;
+      if (isMatch == false) {
+        result.push(locations[i]);
+        if (markers[i] != null) {
+          markers[i].setMap(map);
+        }
+      } else {
+        if (markers[i] != null) {
+          markers[i].setMap(null);
+        }
+      }
+    }
+
+    return result;
+
+  }, this);
 
   // Display info window when list item is clicked.
   this.didSelect = function(selectedLocation) {
-    populateInfoWindow(markers[selectedLocation.id()], largeInfowindow);
+    populateInfoWindow(markers[selectedLocation.id], largeInfowindow);
   };
 };
 
@@ -115,30 +137,4 @@ function populateInfoWindow(marker, infowindow) {
       // Open the infowindow on the correct marker.
       infowindow.open(map, marker);
     }
-  }
-
-
-//Filter callback function
-$.mobile.filterable.prototype.options.filterCallback = function( index, searchValue ) {
-  //Fetch list item
-  var filtertext = $.mobile.getAttribute(this, 'filtertext');
-  filtertext = (filtertext == null ? '' : filtertext);
-  //Concatinate displaying text
-  var filtertext_con = filtertext + ' ' + $.trim($(this).text());
-  //Search items in lower case
-  var result = filtertext_con.toLowerCase().indexOf(searchValue) === -1
-  if (result == false) {
-    //Display marker on the map.
-    if (markers[index] != null) {
-      markers[index].setMap(map);
-    }
-
-  } else {
-    //Hide marker on the map.
-    if (markers[index] != null) {
-      markers[index].setMap(null);
-    }
-  }
-
-  return result;
-};
+}
