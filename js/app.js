@@ -56,10 +56,12 @@ var Location = function(data) {
   this.id = ko.observable(data.id);
 }
 
+
 // ViewModel
 var viewModel = function() {
   var self = this;
   this.locationList = ko.observableArray([]);
+  this.filterInput = ko.observable('');
   locations.forEach(function(loc){
     self.locationList.push(new Location(loc));
   });
@@ -114,6 +116,7 @@ function populateInfoWindow(marker, infowindow) {
       infowindow.open(map, marker);
     }
   }
+
 
 //Filter callback function
 $.mobile.filterable.prototype.options.filterCallback = function( index, searchValue ) {
