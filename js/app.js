@@ -64,14 +64,14 @@ var viewModel = function() {
     self.locationList.push(new Location(loc));
   });
 
-
+  // Display info window when list item is clicked.
   this.didSelect = function(selectedLocation) {
     populateInfoWindow(markers[selectedLocation.id()], largeInfowindow);
   };
 };
 
+// Call knockout apply bindings.
 ko.applyBindings(new viewModel());
-
 
 
 function populateInfoWindow(marker, infowindow) {
