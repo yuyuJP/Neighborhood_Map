@@ -8,7 +8,7 @@ var locations = [
   {title: 'Chinatown Homey Space', location: {lat: 40.7180628, lng: -73.9961237}, id: 5}
 ];
 
-//Map UI
+//Map
 var map;
 
 //Map markers
@@ -49,35 +49,27 @@ function initMap() {
 
 }
 
-//Location
-var Location = function(data) {
-  this.title = ko.observable(data.title);
-  this.location = ko.observable(data.location);
-  this.id = ko.observable(data.id);
-}
-
-
 // ViewModel
 var viewModel = function() {
   var self = this;
-  //this.locationList = ko.observableArray([]);
+
   this.filterInput = ko.observable('');
-  /*
-  locations.forEach(function(loc){
-    self.locationList.push(new Location(loc));
-  });
-  */
+
+  // Filter locations to display on list
   this.filterLocations = ko.computed(function() {
     var result = [];
+    // Search text value
     var searchValue = this.filterInput();
     for (var i = 0; i < locations.length; i++) {
       var isMatch = locations[i].title.toLowerCase().indexOf(searchValue) === -1;
       if (isMatch == false) {
         result.push(locations[i]);
+        // Display marker on the map.
         if (markers[i] != null) {
           markers[i].setMap(map);
         }
       } else {
+        // Remove marker on the map.
         if (markers[i] != null) {
           markers[i].setMap(null);
         }
