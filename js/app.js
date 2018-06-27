@@ -1,43 +1,20 @@
 //Location list
 var locations = [
-  {title: 'Park Ave Penthouse', location: {lat: 40.7713024, lng: -73.9632393}},
-  {title: 'Chelsea Loft', location: {lat: 40.7444883, lng: -73.9949465}},
-  {title: 'Union Square Open Floor Plan', location: {lat: 40.7347062, lng: -73.9895759}},
-  {title: 'East Village Hip Studio', location: {lat: 40.7281777, lng: -73.984377}},
-  {title: 'TriBeCa Artsy Bachelor Pad', location: {lat: 40.7195264, lng: -74.0089934}},
-  {title: 'Chinatown Homey Space', location: {lat: 40.7180628, lng: -73.9961237}}
+  {title: 'Park Ave Penthouse', location: {lat: 40.7713024, lng: -73.9632393}, id: 0},
+  {title: 'Chelsea Loft', location: {lat: 40.7444883, lng: -73.9949465}, id: 1},
+  {title: 'Union Square Open Floor Plan', location: {lat: 40.7347062, lng: -73.9895759}, id: 2},
+  {title: 'East Village Hip Studio', location: {lat: 40.7281777, lng: -73.984377}, id: 3},
+  {title: 'TriBeCa Artsy Bachelor Pad', location: {lat: 40.7195264, lng: -74.0089934}, id: 4},
+  {title: 'Chinatown Homey Space', location: {lat: 40.7180628, lng: -73.9961237}, id: 5}
 ];
-
-//Location
-var Location = function(data) {
-  this.title = ko.observable(data.title);
-  this.location = ko.observable(data.location);
-}
-
-// ViewModel
-var viewModel = function() {
-  var self = this;
-  this.locationList = ko.observableArray([]);
-  locations.forEach(function(loc){
-    self.locationList.push(new Location(loc));
-  });
-
-  this.didSelect = function(selectedLocation) {
-    for (var i = 0; i < locations.length; i++) {
-      if (selectedLocation.title() == locations[i].title) {
-        //Open infowindow
-      }
-    }
-  };
-};
-
-ko.applyBindings(new viewModel());
 
 //Map UI
 var map;
 
 //Map markers
 var markers = [];
+
+var largeInfowindow = null;
 
 function initMap() {
   // Constructor creates a new map - only center and zoom are required.
@@ -46,7 +23,7 @@ function initMap() {
     zoom: 13
   });
 
-  var largeInfowindow = new google.maps.InfoWindow();
+  largeInfowindow = new google.maps.InfoWindow();
 
   // The following group uses the location array to create an array of markers on initialize.
   for (var i = 0; i < locations.length; i++) {
@@ -69,7 +46,33 @@ function initMap() {
       populateInfoWindow(this, largeInfowindow);
     });
   }
+
 }
+
+//Location
+var Location = function(data) {
+  this.title = ko.observable(data.title);
+  this.location = ko.observable(data.location);
+  this.id = ko.observable(data.id);
+}
+
+// ViewModel
+var viewModel = function() {
+  var self = this;
+  this.locationList = ko.observableArray([]);
+  locations.forEach(function(loc){
+    self.locationList.push(new Location(loc));
+  });
+
+
+  this.didSelect = function(selectedLocation) {
+    populateInfoWindow(markers[selectedLocation.id()], largeInfowindow);
+  };
+};
+
+ko.applyBindings(new viewModel());
+
+
 
 function populateInfoWindow(marker, infowindow) {
   // Check to make sure the infowindow is not already opened on this marker.
