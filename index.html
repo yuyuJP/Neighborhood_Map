@@ -18,8 +18,10 @@
       <div class="filter-text">
         <p>Location Filter <input data-bind="textInput: filterInput" /></p>
       </div>
-  		<ul data-role="listview" data-bind="foreach: locationList">
-  			<li><a data-bind="click: $parent.didSelect, text: title"></a></li>
+  		<ul data-bind="foreach: filterLocations">
+        <div class="list-item">
+          <a href="#"><li data-bind="click: $parent.didSelect, text: title"></li></a>
+        </div>
   		</ul>
   	</div>
   	<div data-role="header">

@@ -24,3 +24,11 @@ html, body {
 .filter-text {
   margin-bottom: 20px;
 }
+
+ul {
+  list-style: none;
+}
+
+.list-item {
+  margin: 10px 0 10px -30px;
+}
