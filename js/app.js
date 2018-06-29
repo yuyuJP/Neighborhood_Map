@@ -1,11 +1,11 @@
 //Location list
 var locations = [
-  {title: 'Park Ave Penthouse', location: {lat: 40.7713024, lng: -73.9632393}, id: 0},
-  {title: 'Chelsea Loft', location: {lat: 40.7444883, lng: -73.9949465}, id: 1},
-  {title: 'Union Square Open Floor Plan', location: {lat: 40.7347062, lng: -73.9895759}, id: 2},
-  {title: 'East Village Hip Studio', location: {lat: 40.7281777, lng: -73.984377}, id: 3},
-  {title: 'TriBeCa Artsy Bachelor Pad', location: {lat: 40.7195264, lng: -74.0089934}, id: 4},
-  {title: 'Chinatown Homey Space', location: {lat: 40.7180628, lng: -73.9961237}, id: 5}
+  {title: 'Tokyo Tower', location: {lat: 35.658581, lng: 139.745438}, id: 0},
+  {title: 'Tokyo Skytree', location: {lat: 35.710064, lng: 139.810699}, id: 1},
+  {title: 'Sensō-ji', location: {lat: 35.7088471646, lng: 139.791386834}, id: 2},
+  {title: 'Tokyo Disneyland', location: {lat: 35.626330828, lng: 139.8749965}, id: 3},
+  {title: 'Odaiba', location: {lat: 35.624792, lng: 139.77671}, id: 4},
+  {title: 'Tokyo Imperial Palace', location: {lat: 35.685360, lng: 139.753372}, id: 5}
 ];
 
 //Map
@@ -19,8 +19,8 @@ var largeInfowindow = null;
 function initMap() {
   // Constructor creates a new map - only center and zoom are required.
   map = new google.maps.Map(document.getElementById('map'), {
-    center: {lat: 40.7413549, lng: -73.9980244},
-    zoom: 13
+    center: {lat: 35.658581, lng: 139.745438},
+    zoom: 11
   });
 
   largeInfowindow = new google.maps.InfoWindow();
@@ -61,7 +61,7 @@ var viewModel = function() {
     // Search text value
     var searchValue = this.filterInput();
     for (var i = 0; i < locations.length; i++) {
-      var isMatch = locations[i].title.toLowerCase().indexOf(searchValue) === -1;
+      var isMatch = locations[i].title.toLowerCase().indexOf(searchValue.toLowerCase()) === -1;
       if (isMatch == false) {
         result.push(locations[i]);
         // Display marker on the map.
@@ -100,33 +100,38 @@ function populateInfoWindow(marker, infowindow) {
     infowindow.addListener('closeclick', function() {
       infowindow.marker = null;
     });
-    var streetViewService = new google.maps.StreetViewService();
-    var radius = 50;
-    // In case the status is OK, which means the pano was found, compute the
-    // position of the streetview image, then calculate the heading, then get a
-    // panorama from that and set the options
-    function getStreetView(data, status) {
-      if (status == google.maps.StreetViewStatus.OK) {
-        var nearStreetViewLocation = data.location.latLng;
-        var heading = google.maps.geometry.spherical.computeHeading(nearStreetViewLocation, marker.position);
-        infowindow.setContent('<div>' + marker.title + '</div><div id="pano"></div>');
-        var panoramaOptions = {
-          position: nearStreetViewLocation,
-          pov: {
-            heading: heading,
-            pitch: 30
-          }
-        };
-        var panorama = new google.maps.StreetViewPanorama(
-          document.getElementById('pano'), panoramaOptions);
+
+    // Wiki url to call API
+    var wikiUrl = 'https://en.wikipedia.org/w/api.php?action=opensearch&search=' + marker.title + '&limit=1&namespace=0&format=json'
+
+    // Time out method to handle errors
+    var wikiRequestTimeout = setTimeout(function() {
+      infowindow.setContent('<div>Faied to get wikipedia resources</div>');
+    }, 8000);
+
+    $.ajax({
+      url: wikiUrl,
+      dataType: "jsonp",
+      success: function(response) {
+        var articleList = response[1];
+        // When NO infomation is found on wikipedia
+        if (articleList[0] == null) {
+          infowindow.setContent('<div>No infomation on Wikipedia</div>');
+          // Clear timeout
+          clearTimeout(wikiRequestTimeout);
+        // When infomation is found on wikipedia
         } else {
-          infowindow.setContent('<div>' + marker.title + '</div>' +'<div>No Street View Found</div>');
+          var url = 'http://en.wikipedia.org/wiki/' + articleList[0];
+          var content = '<div class="wiki-container"><div>Wikipedia Top Result</div>' + '<div><a href="' + url + '">' + response[2] +  '</a></div></div>'
+          infowindow.setContent(content);
+          // Clear timeout
+          clearTimeout(wikiRequestTimeout);
         }
+
       }
-      // Use streetview service to get the closest streetview image within
-      // 50 meters of the markers position
-      streetViewService.getPanoramaByLocation(marker.position, radius, getStreetView);
-      // Open the infowindow on the correct marker.
-      infowindow.open(map, marker);
-    }
+    });
+
+    // Open the infowindow on the correct marker.
+    infowindow.open(map, marker);
+  }
 }

@@ -1,5 +1,6 @@
 html, body {
   height: 100%;
+  width: 100%;
   margin: 0;
   padding: 0;
 }
@@ -9,11 +10,15 @@ html, body {
   background-color: #363A44;
 }
 
+
 #map {
-  margin-top: 0;
+  width:100%;
+  height:90%;
+  border:4px solid #fff;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
   position: absolute;
-  height: 86%;
-  width: 97.5%;
+
 }
 
 #pano {
@@ -31,4 +36,8 @@ ul {
 
 .list-item {
   margin: 10px 0 10px -30px;
+}
+
+.wiki-container {
+  width: 200px;
 }
