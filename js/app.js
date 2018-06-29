@@ -133,5 +133,17 @@ function populateInfoWindow(marker, infowindow) {
 
     // Open the infowindow on the correct marker.
     infowindow.open(map, marker);
+
+    //Bounce marker when clicked.
+    if (marker.getAnimation() !== null) {
+      marker.setAnimation(null);
+    } else {
+      marker.setAnimation(google.maps.Animation.BOUNCE);
+    }
+
+    //Stop animation after 1sec.
+    setTimeout(function() {
+      marker.setAnimation(null);
+    }, 1000);
   }
 }
