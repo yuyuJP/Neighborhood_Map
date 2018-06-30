@@ -42,12 +42,14 @@ function initMap() {
     markers.push(marker);
 
     // Create an onclick event to open the large infowindow at each marker.
-    marker.addListener('click', function() {
-      populateInfoWindow(this, largeInfowindow);
-    });
+    marker.addListener('click', placeInfoWindow);
   }
 
 }
+
+placeInfoWindow = function placeInfoWindow() {
+  populateInfoWindow(this, largeInfowindow);
+};
 
 mapError = function mapError() {
   alert('Unable to load Google Maps. Try again!');
@@ -69,12 +71,12 @@ var viewModel = function() {
       if (isMatch === false) {
         result.push(locations[i]);
         // Display marker on the map.
-        if (markers[i] !== null) {
+        if (markers[i] !== undefined) {
           markers[i].setMap(map);
         }
       } else {
         // Remove marker on the map.
-        if (markers[i] !== null) {
+        if (markers[i] !== undefined) {
           markers[i].setMap(null);
         }
       }
