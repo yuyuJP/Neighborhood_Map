@@ -50,8 +50,8 @@ function initMap() {
 }
 
 mapError = function mapError() {
-  alert('Unable to load Google Maps. Try again!')
-}
+  alert('Unable to load Google Maps. Try again!');
+};
 
 // ViewModel
 var viewModel = function() {
@@ -66,15 +66,15 @@ var viewModel = function() {
     var searchValue = this.filterInput();
     for (var i = 0; i < locations.length; i++) {
       var isMatch = locations[i].title.toLowerCase().indexOf(searchValue.toLowerCase()) === -1;
-      if (isMatch == false) {
+      if (isMatch === false) {
         result.push(locations[i]);
         // Display marker on the map.
-        if (markers[i] != null) {
+        if (markers[i] !== null) {
           markers[i].setMap(map);
         }
       } else {
         // Remove marker on the map.
-        if (markers[i] != null) {
+        if (markers[i] !== null) {
           markers[i].setMap(null);
         }
       }
@@ -106,7 +106,7 @@ function populateInfoWindow(marker, infowindow) {
     });
 
     // Wiki url to call API
-    var wikiUrl = 'https://en.wikipedia.org/w/api.php?action=opensearch&search=' + marker.title + '&limit=1&namespace=0&format=json'
+    var wikiUrl = 'https://en.wikipedia.org/w/api.php?action=opensearch&search=' + marker.title + '&limit=1&namespace=0&format=json';
 
     // Time out method to handle errors
     var wikiRequestTimeout = setTimeout(function() {
@@ -119,14 +119,14 @@ function populateInfoWindow(marker, infowindow) {
       success: function(response) {
         var articleList = response[1];
         // When NO infomation is found on wikipedia
-        if (articleList[0] == null) {
+        if (articleList[0] === null) {
           infowindow.setContent('<div>No infomation on Wikipedia</div>');
           // Clear timeout
           clearTimeout(wikiRequestTimeout);
         // When infomation is found on wikipedia
         } else {
           var url = 'http://en.wikipedia.org/wiki/' + articleList[0];
-          var content = '<div class="wiki-container"><div>Wikipedia Top Result</div>' + '<div><a href="' + url + '">' + response[2] +  '</a></div></div>'
+          var content = '<div class="wiki-container"><div>Wikipedia Top Result</div>' + '<div><a href="' + url + '">' + response[2] +  '</a></div></div>';
           infowindow.setContent(content);
           // Clear timeout
           clearTimeout(wikiRequestTimeout);
