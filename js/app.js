@@ -57,8 +57,7 @@ mapError = function mapError() {
 
 // ViewModel
 var viewModel = function() {
-  var self = this;
-
+  
   this.filterInput = ko.observable('');
 
   // Filter locations to display on list
