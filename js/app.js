@@ -49,6 +49,10 @@ function initMap() {
 
 }
 
+mapError = function mapError() {
+  alert('Unable to load Google Maps. Try again!')
+}
+
 // ViewModel
 var viewModel = function() {
   var self = this;
